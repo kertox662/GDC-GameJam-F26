@@ -6,6 +6,8 @@ func _ready() -> void:
 	super._ready()
 	if enemy_id != "":
 		_apply_stats()
+		$Sprite.play(enemy_id)
+		$Weapon.play("enemy")
 
 func setup(id: String) -> void:
 	enemy_id = id
@@ -20,3 +22,4 @@ func _apply_stats() -> void:
 		attack_range = def.range
 		targeting = def.targeting
 		health = max_health
+	scale = Vector2.ONE * BASE_SCALE

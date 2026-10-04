@@ -4,7 +4,6 @@ var end_pos = null
 
 func _physics_process(delta: float) -> void:
 	var start = $HexGrid.current_selected_hex()
-	print(start, end_pos)
 	if start and end_pos:
 		var path = $HexGrid.pathToRange(start, end_pos, 2)
 		$Path.clear_points()

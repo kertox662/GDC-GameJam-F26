@@ -16,6 +16,9 @@ var adjacencies = {} # Dictionary[Vector2i, Array[Vector2i]]
 var occupied: Dictionary[Hex, bool] = {}
 
 var current_highlighted_tile: Hex = null
+# When false, mouse hover highlighting is ignored (e.g. while dragging a unit,
+# so the game manager can paint its own placement highlights).
+var highlight_enabled: bool = true
 
 signal mouse_entered_tile(Hex)
 
@@ -123,6 +126,8 @@ func hexDist(h1: Vector2i, h2: Vector2i) -> int:
 	return max(abs(dq), abs(dy), abs(dq + dy))
 
 func handle_mouse_enters_hex(hex: Hex):
+	if not highlight_enabled:
+		return
 	if current_highlighted_tile:
 		if current_highlighted_tile.modulate != Color.DARK_RED:
 			current_highlighted_tile.modulate = GRID_COLOUR
@@ -131,6 +136,8 @@ func handle_mouse_enters_hex(hex: Hex):
 		current_highlighted_tile.modulate = Color.SANDY_BROWN
 
 func handle_mouse_exits_hex(hex: Hex):
+	if not highlight_enabled:
+		return
 	if current_highlighted_tile == hex:
 		if current_highlighted_tile.modulate != Color.DARK_RED:
 			current_highlighted_tile.modulate = GRID_COLOUR

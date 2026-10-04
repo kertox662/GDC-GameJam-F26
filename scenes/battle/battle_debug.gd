@@ -8,40 +8,32 @@ func _ready() -> void:
 	var manager = EntityManager.new($Battle/HexGrid)
 	$Battle.add_child(manager)
 
-	var unit: Unit = unitScene.instantiate()
-	var enemy1: Enemy = enemyScene.instantiate()
-	var enemy2: Enemy = enemyScene.instantiate()
+	var grid: HexGrid = $Battle/HexGrid
 
-	var unitHex:Hex = $Battle/HexGrid.hexes[Vector2i(4,5)]
-	var enemy1Hex:Hex = $Battle/HexGrid.hexes[Vector2i(2,1)]
-	var enemy2Hex:Hex = $Battle/HexGrid.hexes[Vector2i(5,0)]
+	# One unit per class so every ability can be seen in action.
+	var unit_defs = ["Sputnik", "Vostok", "Voyager", "Buran"]
+	var unit_hexes = [Vector2i(1, 5), Vector2i(2, 6), Vector2i(3, 5), Vector2i(4, 6)]
+	for i in unit_defs.size():
+		var unit: Unit = unitScene.instantiate()
+		var hex: Hex = grid.hexes[unit_hexes[i]]
+		unit.currentHex = hex
+		unit.setup(unit_defs[i])
+		manager.addUnit(unit)
+		$Battle/Entities.add_child(unit)
+		unit.position = hex.position
 
-	unit.currentHex = unitHex
-	enemy1.currentHex = enemy1Hex
-	enemy2.currentHex = enemy2Hex
+	# A small mixed wave in the top rows.
+	var enemy_defs = ["Drone", "Drone", "Cruiser"]
+	var enemy_hexes = [Vector2i(1, 1), Vector2i(3, 0), Vector2i(4, 1)]
+	for i in enemy_defs.size():
+		var enemy: Enemy = enemyScene.instantiate()
+		var hex: Hex = grid.hexes[enemy_hexes[i]]
+		enemy.currentHex = hex
+		enemy.setup(enemy_defs[i])
+		enemy.animName = "unit2"
+		manager.addEnemy(enemy)
+		$Battle/Entities.add_child(enemy)
+		enemy.position = hex.position
 
-	# Configure combat stats from the stat tables.
-	unit.setup("Sputnik")
-	enemy1.setup("Drone")
-	enemy2.setup("Drone")
-
-	enemy1.animName = "unit2"
-	enemy2.animName = "unit2"
-
-	manager.addUnit(unit)
-	manager.addEnemy(enemy1)
-	manager.addEnemy(enemy2)
-
-	print($Battle/HexGrid.hexScale())
-
-	$Battle/Entities.add_child(unit)
-	$Battle/Entities.add_child(enemy1)
-	$Battle/Entities.add_child(enemy2)
-
-	unit.position = unitHex.position
-	enemy1.position = enemy1Hex.position
-	enemy2.position = enemy2Hex.position
-
-	print(unit.position)
-	print(enemy1.position)
-	print(enemy2.position)
+	# Unfreeze the simulation and trigger battle-start hooks (Voyager's volley).
+	manager.start_battle()

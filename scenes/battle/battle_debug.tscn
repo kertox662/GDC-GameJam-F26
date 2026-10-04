@@ -10,5 +10,6 @@ script = ExtResource("1_erfk0")
 position = Vector2(400, 400)
 
 [node name="HexGrid" parent="Battle" unique_id=734273343 instance=ExtResource("1_jcvbl")]
+hexRadius = 65
 
 [node name="Entities" type="Node2D" parent="Battle" unique_id=7599362]

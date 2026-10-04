@@ -14,6 +14,7 @@ func _ready() -> void:
 	super._ready()
 	if unit_id != "":
 		_apply_stats()
+		$Sprite.play(unit_id)
 
 func setup(id: String, lvl: int = 1) -> void:
 	unit_id = id
@@ -47,4 +48,31 @@ func _apply_stats() -> void:
 		attack_range = def.range
 		targeting = "nearest"
 		health = max_health
-	scale = Vector2.ONE * LEVEL_SCALE[level - 1]
+		# Vanguards hold their ground and cannot be moved.
+		can_move = def.unit_class != "Vanguard"
+	scale = Vector2.ONE * (BASE_SCALE * LEVEL_SCALE[level - 1])
+	_attach_ability()
+
+# Attach this unit's signature ability (one per unit_id).
+func _attach_ability() -> void:
+	var behaviour: Behaviour = null
+	match unit_id:
+		"Sputnik":
+			behaviour = DashToBackRow.new()
+		"Buran":
+			behaviour = CritWeakest.new()
+		"Soyuz":
+			behaviour = HealLowestAlly.new()
+		"Hubble":
+			behaviour = BuffStrongestAlly.new()
+		"Vostok":
+			behaviour = TauntEnemies.new()
+		"Mir":
+			behaviour = ShieldAdjacentAllies.new()
+		"Voyager":
+			behaviour = OpeningVolley.new()
+		"Apollo":
+			behaviour = HugeHit.new()
+	if behaviour:
+		behaviour.owner = self
+		behaviours.append(behaviour)

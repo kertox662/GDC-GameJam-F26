@@ -1,17 +1,17 @@
 class_name EntityManager extends Node2D
 
-# Emitted when every enemy on the field is dead (battle won).
-signal battle_ended
+signal battle_ended # Emitted when every enemy on the field is dead.
+signal battle_lost
 
 var state: EntityState
-# While true, combat simulation is frozen (used during preparation phase).
-var paused: bool = true
+var paused: bool = true # Pauses battling during preparation.
 
 var projectileScene: PackedScene = preload("res://scenes/battle/projectile.tscn")
 
 class EntityState:
 	var units: Array[Entity] = []
 	var enemies: Array[Entity] = []
+	var corpses: Array[Entity] = [] # Dead units that stay on the field and keep occupying their hex
 	var unitTiles = {} # Dictionary[Entity, Array[Hex]]
 	var enemyTiles = {} # Dictionary[Entity, Array[Hex]] -> Enemies can take up multiple tiles
 	var hexGrid: HexGrid
@@ -64,11 +64,29 @@ class EntityState:
 
 	func oppInRange(entity: Entity) -> Entity:
 		var oppData = opponentData(entity)
+		var taunt = tauntInRange(entity)
+		if taunt:
+			return taunt
 		return getTeamsUnitInRange(entity, oppData)
 
 	func allyInRange(entity: Entity):
 		var allyData = allyData(entity)
 		return getTeamsUnitInRange(entity, allyData)
+
+	# returns nearest living unit that is taunting and within its taunt radius.
+	func tauntInRange(entity: Entity) -> Entity:
+		var data = opponentData(entity)
+		var best = null
+		var bestDist = -1
+		for unit in data.units:
+			if unit.is_dead or not unit.is_taunting():
+				continue
+			var d = hexGrid.distance(entity.currentHex, unit.currentHex)
+			if d <= unit.taunt_radius:
+				if best == null or d < bestDist:
+					bestDist = d
+					best = unit
+		return best
 
 	func isHexOccupied(hex: Hex):
 		return hexGrid.getOccupied(hex)
@@ -89,32 +107,66 @@ func addUnit(unit: Entity):
 	state.units.push_back(unit)
 	state.unitTiles[unit] = [unit.currentHex]
 	unit.is_on_field = true
+	unit.manager = self
 	unit.died.connect(remove_entity)
 
 func addEnemy(unit: Entity):
 	state.enemies.push_back(unit)
 	state.enemyTiles[unit] = [unit.currentHex]
 	unit.is_on_field = true
+	unit.manager = self
 	unit.died.connect(remove_entity)
 
-func fire_projectile(attacker: Entity, target: Entity) -> void:
+# Begin the battle.
+# Unpauses the simulation and runs start of battle effects
+func start_battle() -> void:
+	paused = false
+	for unit in state.units:
+		if not unit.is_dead:
+			unit.on_battle_start(state)
+
+func fire_projectile(attacker: Entity, target: Entity, damage: int = -1) -> void:
 	var proj: Projectile = projectileScene.instantiate()
-	proj.damage = attacker.attack_damage
+	proj.damage = damage if damage >= 0 else attacker.effective_damage()
 	proj.target = target
 	proj.target_hex = target.currentHex
 	proj.position = attacker.position
 	add_child(proj)
 
+func _make_corpse(entity: Entity) -> void:
+	if entity is Unit:
+		entity.corpse_hex = entity.currentHex
+		state.corpses.append(entity)
+		entity.modulate = Color(0.45, 0.45, 0.45, 0.8)
+		if entity.has_node("Sprite"):
+			entity.get_node("Sprite").modulate = Color(0.45, 0.45, 0.45, 0.8)
+		if entity.has_node("Weapon"):
+			entity.get_node("Weapon").visible = false
+	else:
+		entity.queue_free()
+
 func remove_entity(entity: Entity) -> void:
 	var tiles = state.unitTiles.get(entity, state.enemyTiles.get(entity, []))
-	for hex in tiles:
-		state.hexGrid.setOccupied(hex, false)
+	var is_unit = entity is Unit
+	
+	# Only delete dead enemies.
+	if not is_unit:
+		for hex in tiles:
+			state.hexGrid.setOccupied(hex, false)
 	state.units.erase(entity)
 	state.enemies.erase(entity)
 	state.unitTiles.erase(entity)
 	state.enemyTiles.erase(entity)
-	entity.queue_free()
+	_make_corpse(entity)
 	_check_battle_ended()
+
+# TODO (bring back units)
+func clear_corpses() -> void:
+	for corpse in state.corpses:
+		if corpse.corpse_hex:
+			state.hexGrid.setOccupied(corpse.corpse_hex, false)
+		corpse.queue_free()
+	state.corpses.clear()
 
 func detach_entity(entity: Entity) -> void:
 	var tiles = state.unitTiles.get(entity, state.enemyTiles.get(entity, []))
@@ -131,6 +183,8 @@ func detach_entity(entity: Entity) -> void:
 func _check_battle_ended() -> void:
 	if state.enemies.is_empty():
 		battle_ended.emit()
+	if state.units.is_empty():
+		battle_lost.emit()
 
 func _remove_dead() -> void:
 	for entity in state.units + state.enemies:
@@ -144,6 +198,7 @@ func _physics_process(delta: float) -> void:
 	for entity in state.units + state.enemies:
 		if entity.is_dead:
 			continue
+		entity.tick_timers(delta)
 		entity.pollNextAction(state)
 		entity.doMove(state, delta)
 		entity.update_behaviours(state, delta)
