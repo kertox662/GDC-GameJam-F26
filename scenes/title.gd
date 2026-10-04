@@ -1,4 +1,7 @@
-extends Node2D
+extends Control
+signal start
 
-func _ready() -> void:
-	get_tree().change_scene_to_file("res://scenes/game_manager.tscn")
+func _input(event):
+	if event is InputEventKey and visible:
+		hide()
+		start.emit()

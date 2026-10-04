@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://b616rion3sgf1"]
+
+[ext_resource type="PackedScene" uid="uid://bhxs2p5ldqqb3" path="res://scenes/title.tscn" id="1_j5px3"]
+[ext_resource type="Script" uid="uid://y81lqhaujwob" path="res://scenes/root.gd" id="1_twpsu"]
+
+[node name="Root" type="Node" unique_id=1005795919]
+script = ExtResource("1_twpsu")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=613249825]
+
+[node name="Title" parent="CanvasLayer" unique_id=61480106 instance=ExtResource("1_j5px3")]
+
+[connection signal="start" from="CanvasLayer/Title" to="." method="_on_title_start"]

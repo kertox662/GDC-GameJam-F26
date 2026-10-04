@@ -1,6 +1,45 @@
 [gd_scene format=3 uid="uid://bhxs2p5ldqqb3"]
 
 [ext_resource type="Script" uid="uid://htsd7ldgpj2g" path="res://scenes/title.gd" id="1_4ignj"]
+[ext_resource type="Texture2D" uid="uid://1ga0agpjstu" path="res://assets/milky_way.png" id="2_wosw1"]
 
-[node name="Title" type="Node2D" unique_id=325797878]
+[node name="Title" type="Control" unique_id=61480106]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1_4ignj")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=449173280]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1184850139]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_wosw1")
+
+[node name="Label" type="Label" parent="." unique_id=498886506]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/outline_size = 16
+theme_override_font_sizes/font_size = 96
+text = "YURI IN SPACE"
+horizontal_alignment = 1
+vertical_alignment = 1
