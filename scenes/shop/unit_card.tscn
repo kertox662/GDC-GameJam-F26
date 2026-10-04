@@ -1,0 +1,59 @@
+[gd_scene format=3 uid="uid://c5ubfhrqwpvvv"]
+
+[ext_resource type="Script" uid="uid://dbqocbh0ptgnj" path="res://scenes/shop/unit_card.gd" id="1_4g2ay"]
+[ext_resource type="Texture2D" uid="uid://d2rc3tl4a3qdf" path="res://assets/unit_template.png" id="2_b6bcf"]
+
+[sub_resource type="Gradient" id="Gradient_m0y4s"]
+offsets = PackedFloat32Array(0.9076923, 1)
+colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_a37sx"]
+gradient = SubResource("Gradient_m0y4s")
+fill = 2
+fill_from = Vector2(0.5, 0.5)
+fill_to = Vector2(1, 0.5)
+
+[node name="UnitCard" type="Control" unique_id=2045352644]
+custom_minimum_size = Vector2(180, 180)
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_4g2ay")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=464744478]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_b6bcf")
+expand_mode = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=486646288]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ClassLabel" type="Label" parent="VBoxContainer" unique_id=160959303]
+layout_mode = 2
+text = "CLASS HERE"
+
+[node name="CostLabel" type="Label" parent="VBoxContainer" unique_id=1399999729]
+layout_mode = 2
+text = "COST HERE"
+
+[node name="TextureButton" type="TextureButton" parent="." unique_id=956514774]
+modulate = Color(1, 1, 0, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture_pressed = SubResource("GradientTexture2D_a37sx")
+texture_disabled = SubResource("GradientTexture2D_a37sx")
+texture_focused = SubResource("GradientTexture2D_a37sx")
+stretch_mode = 0

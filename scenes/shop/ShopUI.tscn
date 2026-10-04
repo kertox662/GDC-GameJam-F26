@@ -1,0 +1,227 @@
+[gd_scene format=3 uid="uid://dcmc0bosvexy2"]
+
+[ext_resource type="Script" uid="uid://drtwg18uqo8vv" path="res://scenes/shop/shop_ui.gd" id="1_e74io"]
+[ext_resource type="Script" uid="uid://b8mltxrbg7jlq" path="res://scenes/shop/placeholder_unit_resource.gd" id="2_j3dkc"]
+[ext_resource type="PackedScene" uid="uid://c5ubfhrqwpvvv" path="res://scenes/shop/unit_card.tscn" id="2_m0y4s"]
+[ext_resource type="Texture2D" uid="uid://d2rc3tl4a3qdf" path="res://assets/unit_template.png" id="3_3ipgx"]
+
+[sub_resource type="Gradient" id="Gradient_3ipgx"]
+offsets = PackedFloat32Array(1)
+colors = PackedColorArray(1, 0, 0.41960785, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_j3dkc"]
+gradient = SubResource("Gradient_3ipgx")
+fill_from = Vector2(0.6196581, 0.83760685)
+
+[sub_resource type="Resource" id="Resource_m0y4s"]
+script = ExtResource("2_j3dkc")
+unit_class = "ONE"
+unit_cost = 5
+generic_stat = 2
+texture = SubResource("GradientTexture2D_j3dkc")
+metadata/_custom_type_script = "uid://b8mltxrbg7jlq"
+
+[sub_resource type="Resource" id="Resource_ligdr"]
+script = ExtResource("2_j3dkc")
+unit_class = "TWO"
+unit_cost = 10
+generic_stat = 4
+texture = ExtResource("3_3ipgx")
+metadata/_custom_type_script = "uid://b8mltxrbg7jlq"
+
+[node name="ShopUi" type="Control" unique_id=456622884]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_e74io")
+unit_resources = Array[ExtResource("2_j3dkc")]([SubResource("Resource_m0y4s"), SubResource("Resource_ligdr")])
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=1281581693]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=1117992900]
+layout_mode = 2
+theme_override_constants/separation = 0
+alignment = 2
+
+[node name="UpperUI" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=45795422]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+
+[node name="Control" type="Control" parent="MarginContainer/VBoxContainer/UpperUI" unique_id=1017026006]
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+
+[node name="ColorRect" type="ColorRect" parent="MarginContainer/VBoxContainer/UpperUI/Control" unique_id=1915707300]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/UpperUI/Control" unique_id=288484853]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/UpperUI/Control/MarginContainer" unique_id=819404711]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer/UpperUI/Control/MarginContainer/HBoxContainer" unique_id=717507191]
+layout_mode = 2
+text = "ENERGY: "
+
+[node name="EnergyLabel" type="Label" parent="MarginContainer/VBoxContainer/UpperUI/Control/MarginContainer/HBoxContainer" unique_id=371220158]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "00000000000"
+
+[node name="LowerUI" type="HBoxContainer" parent="MarginContainer/VBoxContainer" unique_id=597734704]
+custom_minimum_size = Vector2(0, 200)
+layout_mode = 2
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="Instructions" type="Control" parent="MarginContainer/VBoxContainer/LowerUI" unique_id=350233579]
+custom_minimum_size = Vector2(400, 0)
+layout_mode = 2
+
+[node name="ColorRect" type="ColorRect" parent="MarginContainer/VBoxContainer/LowerUI/Instructions" unique_id=1461332470]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.28805313, 0.2331706, 0.5718439, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/LowerUI/Instructions" unique_id=214190300]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/LowerUI/Instructions/MarginContainer" unique_id=1078751178]
+layout_mode = 2
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="ClickTileHint" type="Label" parent="MarginContainer/VBoxContainer/LowerUI/Instructions/MarginContainer/VBoxContainer" unique_id=1463970179]
+unique_name_in_owner = true
+layout_mode = 2
+text = "CLICK A TILE"
+horizontal_alignment = 1
+
+[node name="Separator" type="Control" parent="MarginContainer/VBoxContainer/LowerUI/Instructions/MarginContainer/VBoxContainer" unique_id=817525683]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="RefreshButton" type="Button" parent="MarginContainer/VBoxContainer/LowerUI/Instructions/MarginContainer/VBoxContainer" unique_id=173754251]
+layout_mode = 2
+text = "REFRESH"
+
+[node name="Units" type="Control" parent="MarginContainer/VBoxContainer/LowerUI" unique_id=974565915]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ColorRect" type="ColorRect" parent="MarginContainer/VBoxContainer/LowerUI/Units" unique_id=298619897]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/LowerUI/Units" unique_id=884390468]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="UnitCardContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/LowerUI/Units/MarginContainer" unique_id=526198348]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="UnitCard" parent="MarginContainer/VBoxContainer/LowerUI/Units/MarginContainer/UnitCardContainer" unique_id=2045352644 instance=ExtResource("2_m0y4s")]
+layout_mode = 2
+
+[node name="UnitCard2" parent="MarginContainer/VBoxContainer/LowerUI/Units/MarginContainer/UnitCardContainer" unique_id=689775690 instance=ExtResource("2_m0y4s")]
+layout_mode = 2
+
+[node name="UnitCard3" parent="MarginContainer/VBoxContainer/LowerUI/Units/MarginContainer/UnitCardContainer" unique_id=1082202686 instance=ExtResource("2_m0y4s")]
+layout_mode = 2
+
+[node name="UnitCard4" parent="MarginContainer/VBoxContainer/LowerUI/Units/MarginContainer/UnitCardContainer" unique_id=1722477979 instance=ExtResource("2_m0y4s")]
+layout_mode = 2
+
+[node name="UnitCard5" parent="MarginContainer/VBoxContainer/LowerUI/Units/MarginContainer/UnitCardContainer" unique_id=1144495028 instance=ExtResource("2_m0y4s")]
+layout_mode = 2
+
+[node name="UnitCard6" parent="MarginContainer/VBoxContainer/LowerUI/Units/MarginContainer/UnitCardContainer" unique_id=1034662866 instance=ExtResource("2_m0y4s")]
+layout_mode = 2
+
+[node name="Stats" type="Control" parent="MarginContainer/VBoxContainer/LowerUI" unique_id=847914403]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+
+[node name="ColorRect" type="ColorRect" parent="MarginContainer/VBoxContainer/LowerUI/Stats" unique_id=1299288091]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.28805313, 0.2331706, 0.5718439, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/LowerUI/Stats" unique_id=1522702408]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="GenericStatsLabel" type="Label" parent="MarginContainer/VBoxContainer/LowerUI/Stats/MarginContainer" unique_id=2067205456]
+unique_name_in_owner = true
+layout_mode = 2
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/LowerUI/Instructions/MarginContainer/VBoxContainer/RefreshButton" to="." method="_on_refresh_button_pressed"]
