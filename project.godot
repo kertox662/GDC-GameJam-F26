@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="YuriInSpaceAutochess"
-run/main_scene="uid://bhxs2p5ldqqb3"
+run/main_scene="uid://b616rion3sgf1"
 config/features=PackedStringArray("4.7", "Mobile")
 config/icon="res://icon.svg"
 
