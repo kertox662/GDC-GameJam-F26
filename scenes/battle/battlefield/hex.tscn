@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://byly04nktbugf"]
+
+[ext_resource type="Script" uid="uid://v4d8blejxhvn" path="res://scenes/battle/battlefield/hex.gd" id="1_a6lty"]
+
+[node name="Hex" type="Area2D" unique_id=801418207]
+script = ExtResource("1_a6lty")
+
+[node name="Polygon2D" type="Polygon2D" parent="." unique_id=627211230]
+polygon = PackedVector2Array(0, 10, 8.66, 5, 8.66, -5, 0, -10, -8.66, -5, -8.66, 5, 0, 10, 0, 9.5, -8.23, 4.75, -8.23, -4.75, 0, -9.5, 8.23, -4.75, 8.23, 4.75, 0, 9.5)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="." unique_id=1601131213]
+visible = false
+polygon = PackedVector2Array(0, 10, 8.66, 5, 8.66, -5, 0, -10, -8.66, -5, -8.66, 5)
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

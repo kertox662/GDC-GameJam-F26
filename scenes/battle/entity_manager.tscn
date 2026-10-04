@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://cb3dnp5q28wqq"]
+
+[ext_resource type="Script" uid="uid://dojoojddijgfn" path="res://scenes/battle/entity_manager.gd" id="1_pmods"]
+
+[node name="EntityManager" type="Node2D" unique_id=1233866563]
+script = ExtResource("1_pmods")

@@ -1,0 +1,90 @@
+[gd_scene format=3 uid="uid://b7gpiawycgd2w"]
+
+[ext_resource type="Texture2D" uid="uid://d2rc3tl4a3qdf" path="res://assets/unit_template.png" id="1_l1e1h"]
+[ext_resource type="Script" uid="uid://dbhwdjn0fi2w6" path="res://scenes/entity/entity.gd" id="1_t6or0"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l1e1h"]
+atlas = ExtResource("1_l1e1h")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uorv3"]
+atlas = ExtResource("1_l1e1h")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qstjr"]
+atlas = ExtResource("1_l1e1h")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8wy7d"]
+atlas = ExtResource("1_l1e1h")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_acqig"]
+atlas = ExtResource("1_l1e1h")
+region = Rect2(32, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mdi4j"]
+atlas = ExtResource("1_l1e1h")
+region = Rect2(64, 32, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_cocti"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l1e1h")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uorv3")
+}],
+"loop": 1,
+"name": &"unit1",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qstjr")
+}],
+"loop": 1,
+"name": &"unit1dead",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8wy7d")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_acqig")
+}],
+"loop": 1,
+"name": &"unit2",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mdi4j")
+}],
+"loop": 1,
+"name": &"unit2dead",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_g0rhq"]
+radius = 0.01
+
+[node name="Entity" type="CharacterBody2D" unique_id=2090127164]
+script = ExtResource("1_t6or0")
+
+[node name="AttackCooldown" type="Timer" parent="." unique_id=1679125452]
+wait_time = 0.6
+
+[node name="AbilityCooldown" type="Timer" parent="." unique_id=1848420114]
+
+[node name="Sprite" type="AnimatedSprite2D" parent="." unique_id=1536293245]
+sprite_frames = SubResource("SpriteFrames_cocti")
+animation = &"unit2dead"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2066507221]
+visible = false
+shape = SubResource("CircleShape2D_g0rhq")
+
+[connection signal="timeout" from="AttackCooldown" to="." method="_on_attack_cooldown_timeout"]

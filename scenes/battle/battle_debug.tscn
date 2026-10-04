@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://cafifeh80s6m3"]
+
+[ext_resource type="Script" uid="uid://gcjrqxsyw4wl" path="res://scenes/battle/battle_debug.gd" id="1_erfk0"]
+[ext_resource type="PackedScene" uid="uid://ckfsxdo36jxqr" path="res://scenes/battle/battlefield/hex_grid.tscn" id="1_jcvbl"]
+
+[node name="BattleDebug" type="Node2D" unique_id=899499947]
+script = ExtResource("1_erfk0")
+
+[node name="Battle" type="Node2D" parent="." unique_id=779280592]
+position = Vector2(400, 400)
+
+[node name="HexGrid" parent="Battle" unique_id=734273343 instance=ExtResource("1_jcvbl")]
+
+[node name="Entities" type="Node2D" parent="Battle" unique_id=7599362]

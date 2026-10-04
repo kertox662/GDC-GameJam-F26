@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://cunit00000001"]
+
+[ext_resource type="PackedScene" uid="uid://b7gpiawycgd2w" path="res://scenes/entity/entity.tscn" id="1_base"]
+[ext_resource type="Script" path="res://scenes/entity/units/unit.gd" id="2_unit"]
+
+[node name="Unit" instance=ExtResource("1_base")]
+script = ExtResource("2_unit")
